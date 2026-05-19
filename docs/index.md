@@ -2,25 +2,25 @@
 icon: lucide/rocket
 ---
 
-# Get started
+# Get started!
 
-For full documentation visit [zensical.org](https://zensical.org/docs/).
+For full documentation visit [Go.org](https://go.dev/).
 
-## Commands
+## Commands!!!!
 
-* [`zensical new`][new] - Create a new project
-* [`zensical serve`][serve] - Start local web server
-* [`zensical build`][build] - Build your site
+* [`Go install`][new] - Install Linguagem Go
+* [`Go serve`][serve] - Start local web server
+* [`Go build`][build] - Build your site
 
-  [new]: https://zensical.org/docs/usage/new/
-  [serve]: https://zensical.org/docs/usage/preview/
-  [build]: https://zensical.org/docs/usage/build/
+  [new]: https://go.dev/dl/?utm_source=
+  [serve]: https://pkg.go.dev/github.com/mre-fog/serve?utm_source=
+  [build]: https://pkg.go.dev/cmd/go?utm_source=#hdr-Compile_packages_and_dependencies
 
 ## Examples
 
-### Admonitions
+### Documentation
 
-> Go to [documentation](https://zensical.org/docs/authoring/admonitions/)
+> Go to [documentation](https://go.dev/doc/)
 
 !!! note
 
