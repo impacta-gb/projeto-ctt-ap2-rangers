@@ -1,67 +1,29 @@
-name: CI/CD Pipeline - Zensical Docs
+name: Documentation
 on:
   push:
     branches:
+      - master
       - main
-  pull_request:
-    branches:
-      - main
-  schedule:
-    - cron: '0 0 * * 1'
 permissions:
   contents: read
   pages: write
   id-token: write
-
 jobs:
-  build_site:
-    name: Build Zensical Site
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version: ["3.10", "3.11"]
-      fail-fast: false
-
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-      - name: Setup Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: ${{ matrix.python-version }}
-      - name: Cache Pip Packages
-        uses: actions/cache@v4
-        with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ matrix.python-version }}-${{ hashFiles('package.json', 'zensical.toml') }}
-          restore-keys: |
-            ${{ runner.os }}-pip-${{ matrix.python-version }}-
-      - name: Install Zensical
-        run: |
-          python -m pip install --upgrade pip
-          pip install zensical
-
-      - name: Build Documentation
-        run: |
-          zensical build
-      - name: Upload Build Artifact
-        if: matrix.python-version == '3.11'
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: 'site/'
-
-  deploy_site:
-    name: Deploy to GitHub Pages
-    needs: build_site
-    if: github.event_name != 'pull_request'
-    runs-on: ubuntu-latest
+  deploy:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-
+    runs-on: ubuntu-latest
     steps:
-      - name: Deploy to GitHub Pages
+      - uses: actions/configure-pages@v6
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: 3.x
+      - run: pip install zensical
+      - run: zensical build --clean
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: site
+      - uses: actions/deploy-pages@v5
         id: deployment
-        uses: actions/deploy-pages@v4
-```
-eof
