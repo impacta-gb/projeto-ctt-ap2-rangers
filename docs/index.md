@@ -8,32 +8,35 @@ For full documentation visit [zensical.org](https://zensical.org/docs/).
 
 ## Commands
 
-* [`zensical new`][new] - Create a new project
-* [`zensical serve`][serve] - Start local web server
-* [`zensical build`][build] - Build your site
+* [`Liguagem Go new`][new] - Site oficial do Linguagem Go
+* [`Liguagem Go Tour of Go`][serve] - Aprendizado interativo oficial
+* [`Linguagem Go build`][build] - Build your site
 
-  [new]: https://zensical.org/docs/usage/new/
-  [serve]: https://zensical.org/docs/usage/preview/
-  [build]: https://zensical.org/docs/usage/build/
+  [new]: https://go.dev/
+  [serve]: https://go.dev/tour/basics/1
+  [build]: https://go.dev/doc/
 
 ## Examples
 
-### Admonitions
+### Introdução e Instalação
 
-> Go to [documentation](https://zensical.org/docs/authoring/admonitions/)
+>Manual do passo e passo [Introdução](https://go.dev/doc/tutorial/getting-started?utm_source)
 
 !!! note
 
-    This is a **note** admonition. Use it to provide helpful information.
+    Segue com atenção e vai conseguir instalar tudo certinho
 
-!!! warning
+>Aqui voce faz para Instalação de Linguagem Go [Instalação](https://go.dev/dl/)
 
-    This is a **warning** admonition. Be careful!
+### Sintaxe Básica e Variáveis
 
-### Details
+> Sinataxe Básica [Básico](https://go.dev/tour/basics/1?utm_source=chatgpt.com)
 
-> Go to [documentation](https://zensical.org/docs/authoring/admonitions/#collapsible-blocks)
+> Variáveis [Variáveis](https://go.dev/tour/basics/1?utm_source=chatgpt.com)
 
+## Estruturas de Controle (If, For, Switch)
+
+> Controle de fluxo em Go [For](https://go.dev/tour/flowcontrol/1?utm_source=chatgpt.com)
 ??? info "Click to expand for more info"
 
     This content is hidden until you click to expand it.
