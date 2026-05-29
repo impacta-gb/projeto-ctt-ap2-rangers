@@ -141,7 +141,7 @@ func main() {
     fmt.Println("Função Main finalizada.")
 }
 ```
-## Channels
+
 ## Concorrência II: Channels
 
 Quando evoluímos para cenários de alta complexidade, o tráfego simples de mensagens síncronas precisa de ferramentas adicionais. O Go disponibiliza canais com memória temporária e primitivos de hardware para evitar condições de corrida (*Data Races*).
