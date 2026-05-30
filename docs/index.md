@@ -3,27 +3,642 @@ icon: lucide/rocket
 ---
 
 # Linguagem Go
-
+A linguagem Go, também conhecida como Golang, tem se consolidado como linguagem padrão para sistemas de nuvem e microsserviços de alta escala. Ela foi criada pelo Google para superar a complexidade e a lentidão de linguagens como C++, sendo uma linguagem que prioriza simplicidade, segurança e desempenho.
 ### Descubra mais sobre a linguagem Golang!
 
 ## Instalando a linguagem Go
+### Pré-requisitos
 
-* [`zensical new`][new] - Create a new project
-* [`zensical serve`][serve] - Start local web server
-* [`zensical build`][build] - Build your site
+!!! info "Antes de começar você precisa ter:"
+    - Acesso à internet
+    - Permissão de administrador no sistema
+    - Terminal (Linux/macOS) ou PowerShell (Windows)
 
-  [new]: https://zensical.org/docs/usage/new/
-  [serve]: https://zensical.org/docs/usage/preview/
-  [build]: https://zensical.org/docs/usage/build/
+---
 
-## Sintaxe básica
+### Passo 1 — Baixe o instalador
 
-## Váriaveis
+Acesse o site oficial da linguagem e baixe o instalador para o seu sistema:
+
+**[https://go.dev/dl/](https://go.dev/dl/)**
+
+| Sistema   | Arquivo    |
+|-----------|------------|
+| Windows   | `.msi`     |
+| macOS     | `.pkg`     |
+| Linux     | `.tar.gz`  |
+
+---
+
+### Passo 2 — Instale o Go
+
+=== "Windows"
+
+    1. Execute o arquivo `.msi` baixado
+    2. Siga o assistente (Next → Next → Finish)
+    3. O Go será instalado em `C:\Program Files\Go`
+
+=== "macOS"
+
+    1. Abra o arquivo `.pkg` baixado
+    2. Siga o assistente de instalação
+    3. O Go será instalado em `/usr/local/go`
+
+=== "Linux"
+
+    No terminal, execute:
+
+    ```bash
+    # Remova versão antiga (se houver)
+    sudo rm -rf /usr/local/go
+
+    # Extraia o arquivo (ajuste o nome conforme a versão baixada)
+    sudo tar -C /usr/local -xzf go1.22.0.linux-amd64.tar.gz
+    ```
+
+---
+
+### Passo 3 — Configure o PATH
+
+Para que o terminal reconheça o comando `go`, adicione o Go ao PATH do sistema.
+
+=== "Windows"
+
+    !!! success "Automático"
+        O instalador `.msi` configura o PATH automaticamente. Nenhuma ação necessária.
+
+=== "macOS / Linux"
+
+    Abra o arquivo de configuração do seu shell:
+
+    ```bash
+    # Para bash
+    nano ~/.bashrc
+
+    # Para zsh (padrão no macOS)
+    nano ~/.zshrc
+    ```
+
+    Adicione a linha ao final do arquivo:
+
+    ```bash
+    export PATH=$PATH:/usr/local/go/bin
+    ```
+
+    Salve e aplique as mudanças:
+
+    ```bash
+    source ~/.bashrc
+    # ou
+    source ~/.zshrc
+    ```
+
+---
+
+### Passo 4 — Verifique a instalação
+
+Feche e reabra o terminal, depois execute:
+
+```bash
+go version
+```
+
+Se a instalação foi bem-sucedida, você verá algo como:
+
+```
+go version go1.22.0 linux/amd64
+```
+
+---
+
+### Passo 5 — Teste com um programa simples
+
+Crie um arquivo chamado `hello.go`:
+
+```go
+package main
+
+import "fmt"
+
+func main() {
+    fmt.Println("Olá, mundo!")
+}
+```
+
+Execute o programa:
+
+```bash
+go run hello.go
+```
+
+Saída esperada é:
+
+```
+Olá, mundo!
+```
+
+---
+### Solução de problemas
+
+!!! warning "`go: command not found`"
+    O PATH não foi configurado corretamente. Revise o **Passo 3**.
+
+!!! warning "Versão desatualizada"
+    Repita o processo com o instalador mais recente do site oficial.
+
+!!! warning "Permissão negada (Linux)"
+    Use `sudo` antes dos comandos de instalação.
+
+## Sintaxe básica e váriaveis
+
+Go foi projetado para ser simples e legível. Por isso sua sintaxe é limpa, sem muitos símbolos desnecessários. Assim tornando o código fácil de escrever e entender.
+
+### Estrutura de um programa Go
+
+Todo programa Go segue esta estrutura básica:
+
+```go
+package main  // (1)
+
+import "fmt"  // (2)
+
+func main() { // (3)
+    fmt.Println("Olá, mundo!")
+}
+```
+
+1. Todo arquivo Go pertence a um **pacote**. O pacote `main` indica que este é o ponto de entrada do programa.
+2. `import` carrega pacotes externos. O pacote `fmt` oferece funções de entrada e saída.
+3. A função `main()` é obrigatória — é onde a execução começa.
+
+---
+
+### Comentários
+
+```go
+// Comentário de uma linha
+
+/*
+   Comentário
+   de múltiplas linhas
+*/
+```
+
+---
+
+### Ponto e vírgula
+
+!!! info "Não é necessário!"
+    Diferentemente do C ou Java, o Go **não exige ponto e vírgula** ao final das linhas. Já que o compilador os insere automaticamente.
+
+---
+
+### Variáveis
+
+As variáveis são espaços na memória usados para armazenar valores. No Go, toda variável tem um **tipo definido**.
+
+#### Declaração com `var`
+
+A forma mais explícita de declarar uma variável:
+
+```go
+var nome string = "Alice"
+var idade int = 25
+var ativo bool = true
+```
+
+O tipo pode ser omitido quando o valor já deixa claro qual é:
+
+```go
+var nome = "Alice"   // Go infere que é string
+var idade = 25       // Go infere que é int
+```
+
+---
+
+#### Declaração curta com `:=`
+
+Dentro das funções, você pode usar a sintaxe curta, que é a mais comum no dia a dia:
+
+```go
+func main() {
+    nome := "Alice"
+    idade := 25
+    ativo := true
+}
+```
+
+!!! warning "Atenção"
+    O operador `:=` só pode ser usado **dentro de funções**. Para variáveis no escopo global, você deve usar `var`.
+
+---
+
+#### Declaração múltipla
+
+Você pode declarar várias variáveis de uma vez usando:
+
+```go
+var (
+    nome   string = "Alice"
+    idade  int    = 25
+    cidade string = "São Paulo"
+)
+```
+
+Ou usando a sintaxe curta:
+
+```go
+x, y, z := 10, 20, 30
+```
+
+---
+
+### Tipos de dados
+
+#### Numéricos
+
+| Tipo | Descrição | Exemplo |
+|------|-----------|---------|
+| `int` | Inteiro (tamanho depende do sistema) | `42` |
+| `int8`, `int16`, `int32`, `int64` | Inteiro com tamanho fixo | `int64(1000)` |
+| `uint` | Inteiro sem sinal (positivo) | `100` |
+| `float32` | Número decimal (precisão simples) | `3.14` |
+| `float64` | Número decimal (precisão dupla) | `3.14159265` |
+
+```go
+var inteiro int = 42
+var decimal float64 = 3.14
+var grande int64 = 1000000
+```
+
+#### Texto
+
+| Tipo | Descrição | Exemplo |
+|------|-----------|---------|
+| `string` | Cadeia de caracteres | `"Olá"` |
+| `rune` | Caractere Unicode (`int32`) | `'A'` |
+| `byte` | Byte (`uint8`) | `'x'` |
+
+```go
+var saudacao string = "Olá, Go!"
+var letra rune = 'A'
+```
+
+#### Lógico
+
+| Tipo | Descrição | Valores |
+|------|-----------|---------|
+| `bool` | Verdadeiro ou falso | `true`, `false` |
+
+```go
+var ligado bool = true
+var desligado bool = false
+```
+
+---
+
+### Valor zero
+
+!!! info "Variáveis sempre têm valor inicial"
+    No Go, toda variável declarada sem valor recebe automaticamente o **valor zero** do seu tipo:
+
+| Tipo | Valor zero |
+|------|------------|
+| `int`, `float64` | `0` |
+| `string` | `""` (string vazia) |
+| `bool` | `false` |
+| ponteiros, slices, maps | `nil` |
+
+```go
+var numero int     // vale 0
+var texto string   // vale ""
+var ativo bool     // vale false
+```
+
+---
+
+### Constantes
+
+Constantes são valores que **não podem ser alterados** depois da declaração. Use `const`:
+
+```go
+const Pi = 3.14159
+const Linguagem = "Go"
+const MaxTentativas = 3
+```
+
+Ou em bloco:
+
+```go
+const (
+    StatusOk    = 200
+    StatusErro  = 500
+    Versao      = "1.0.0"
+)
+```
+
+!!! tip "Quando usar constantes?"
+    Use `const` para valores que nunca mudam: configurações, limites, códigos de status, etc.
+
+---
+
+### Conversão de tipos
+
+O Go **não faz conversão automática** entre tipos. Você precisa converter explicitamente:
+
+```go
+var inteiro int = 42
+var decimal float64 = float64(inteiro) // converte int → float64
+
+var x float64 = 9.7
+var y int = int(x) // converte float64 → int (trunca, vira 9)
+```
+
+!!! warning "Cuidado ao truncar"
+    Converter `float64` para `int` **remove a parte decimal** sem arredondar.
 
 ## Estrutura de controles
-### If
+Estruturas de controle determinam o **fluxo de execução** de um programa. Ou seja, quais instruções serão executadas, em qual ordem e quantas vezes. Ele oferece três estruturas principais: `if`, `for` e `switch`.
+
+### If / Else
+
+O `if` executa um bloco de código apenas se uma condição for verdadeira.
+
+#### Sintaxe básica
+
+```go
+idade := 18
+
+if idade >= 18 {
+    fmt.Println("Maior de idade")
+}
+```
+
+!!! info "Sem parênteses"
+    No Go, a condição do `if` **não usa parênteses**, diferentemente do C, Java ou JavaScript.
+
+---
+
+#### If / Else
+
+```go
+idade := 15
+
+if idade >= 18 {
+    fmt.Println("Maior de idade")
+} else {
+    fmt.Println("Menor de idade")
+}
+```
+
+---
+
+#### If / Else if / Else
+
+```go
+nota := 75
+
+if nota >= 90 {
+    fmt.Println("Aprovado com distinção")
+} else if nota >= 60 {
+    fmt.Println("Aprovado")
+} else {
+    fmt.Println("Reprovado")
+}
+```
+
+---
+
+#### If com inicialização
+
+O Go permite declarar uma variável **dentro do próprio `if`**. No entanto ela existirá apenas dentro do bloco:
+
+```go
+if x := 10; x > 5 { // (1)
+    fmt.Println("x é maior que 5")
+}
+// x não existe aqui fora
+```
+
+1. A parte antes do `;` é a inicialização. A parte depois é a condição.
+
+!!! tip "Quando usar?"
+    Muito útil para verificar erros retornados por funções sem poluir o escopo externo.
+
+    ```go
+    if err := abrirArquivo("dados.txt"); err != nil {
+        fmt.Println("Erro:", err)
+    }
+    ```
+
 ### For
+
+O `for` é a **única estrutura de repetição do Go**, mas é flexível o suficiente para substituir o `while` e o `foreach` de outras linguagens.
+
+#### For tradicional (estilo C)
+
+```go
+for i := 0; i < 5; i++ { // (1)
+    fmt.Println(i)
+}
+```
+
+1. Três partes separadas por `;`: **inicialização** → **condição** → **incremento**.
+
+Saída:
+```
+0
+1
+2
+3
+4
+```
+
+---
+
+#### For como While
+
+Omitindo a inicialização e o incremento, o `for` se comporta como um `while`:
+
+```go
+contador := 0
+
+for contador < 5 {
+    fmt.Println(contador)
+    contador++
+}
+```
+
+---
+
+#### Loop infinito
+
+Omitindo tudo, o loop roda para sempre. Por isso é útil em servidores e processos contínuos:
+
+```go
+for {
+    fmt.Println("Rodando...")
+    // use break para sair
+}
+```
+
+---
+
+#### For com Range
+
+O `range` percorre **slices, arrays, maps e strings** de forma simples:
+
+```go
+frutas := []string{"maçã", "banana", "laranja"}
+
+for i, fruta := range frutas { // (1)
+    fmt.Println(i, fruta)
+}
+```
+
+1. `i` é o índice, `fruta` é o valor atual. Ambos podem ser usados dentro do bloco.
+
+Saída:
+```
+0 maçã
+1 banana
+2 laranja
+```
+
+Se não precisar do índice, use `_` para ignorá-lo:
+
+```go
+for _, fruta := range frutas {
+    fmt.Println(fruta)
+}
+```
+
+---
+
+#### Break e Continue
+
+`break` interrompe o loop imediatamente. `continue` pula para a próxima iteração:
+
+```go
+for i := 0; i < 10; i++ {
+    if i == 3 {
+        continue // pula o 3
+    }
+    if i == 7 {
+        break // para no 7
+    }
+    fmt.Println(i)
+}
+```
+
+Saída:
+```
+0
+1
+2
+4
+5
+6
+```
+
 ### Switch
+
+O `switch` compara um valor com múltiplos casos, sendo mais limpo que vários `else if` seguidos.
+
+#### Sintaxe básica
+
+```go
+dia := "segunda"
+
+switch dia {
+case "segunda", "terça", "quarta", "quinta", "sexta":
+    fmt.Println("Dia útil")
+case "sábado", "domingo":
+    fmt.Println("Final de semana")
+default:
+    fmt.Println("Dia inválido")
+}
+```
+
+!!! info "Sem `break` necessário"
+    No Go, cada `case` **para automaticamente** ao terminar. Ao contrário de C e Java, onde você precisa escrever `break` explicitamente.
+
+---
+
+#### Switch com inicialização
+
+Assim como o `if`, o `switch` aceita uma inicialização antes da condição:
+
+```go
+switch hora := time.Now().Hour(); { // (1)
+case hora < 12:
+    fmt.Println("Bom dia!")
+case hora < 18:
+    fmt.Println("Boa tarde!")
+default:
+    fmt.Println("Boa noite!")
+}
+```
+
+1. `hora` é declarada e usada somente dentro do `switch`.
+
+---
+
+#### Switch sem condição
+
+Quando omitida a condição, o `switch` funciona como uma sequência de `if/else` — avaliando cada `case` como uma expressão booleana:
+
+```go
+nota := 85
+
+switch {
+case nota >= 90:
+    fmt.Println("Excelente")
+case nota >= 70:
+    fmt.Println("Bom")
+case nota >= 50:
+    fmt.Println("Regular")
+default:
+    fmt.Println("Insuficiente")
+}
+```
+
+---
+
+#### Fallthrough
+
+Se você quiser que a execução **continue para o próximo case**, use `fallthrough`:
+
+```go
+x := 1
+
+switch x {
+case 1:
+    fmt.Println("Um")
+    fallthrough
+case 2:
+    fmt.Println("Dois")
+case 3:
+    fmt.Println("Três")
+}
+```
+
+Saída:
+```
+Um
+Dois
+```
+
+!!! warning "Use com cautela"
+    O `fallthrough` executa o próximo `case` **independente da condição**. Use apenas quando realmente necessário.
+
+### Resumo
+
+| Estrutura | Uso principal |
+|-----------|---------------|
+| `if / else` | Executar código com base em uma condição |
+| `for` | Repetir código (loop, while e foreach em um só) |
+| `switch` | Comparar um valor com múltiplos casos |
 
 ## Arrays, Slices e Maps
 
